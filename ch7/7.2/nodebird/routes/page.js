@@ -12,9 +12,7 @@ router.use((req, res, next) => {
 });
 
 router.get('/profile', renderProfile);
-
 router.get('/join', renderJoin);
-
 router.get('/', renderMain);
 
 module.exports = router;
