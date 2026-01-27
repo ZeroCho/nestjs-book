@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="timeline">
+  <div class="followings half">
+    <h2>팔로잉 목록</h2>
+    {% if user.followings %}
+    {% for following in user.followings %}
+    <div>{{following.following.nick}}</div>
+    {% endfor %}
+    {% endif %}
+  </div>
+  <div class="followers half">
+    <h2>팔로워 목록</h2>
+    {% if user.followers %}
+    {% for follower in user.followers %}
+    <div>{{follower.follower.nick}}</div>
+    {% endfor %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
