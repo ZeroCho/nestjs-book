@@ -30,7 +30,7 @@ module.exports = () => {
           .from(users)
           .where(eq(users.id, profile.id.toString()))
           .limit(1);
-        done(null, newUser);
+        done(null, newUser[0]);
       }
     } catch (error) {
       console.error(error);
