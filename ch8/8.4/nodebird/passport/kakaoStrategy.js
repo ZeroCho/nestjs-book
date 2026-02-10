@@ -11,8 +11,8 @@ const schema_1 = require("../drizzle/schema");
 exports.default = () => {
     passport_1.default.use(new passport_kakao_1.Strategy({
         clientID: process.env.KAKAO_ID,
+        clientSecret: process.env.KAKAO_SECRET,
         callbackURL: '/auth/kakao/callback',
-        clientSecret: '',
     }, async (accessToken, refreshToken, profile, done) => {
         console.log('kakao profile', profile);
         try {

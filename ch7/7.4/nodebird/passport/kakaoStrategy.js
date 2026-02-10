@@ -7,6 +7,7 @@ const { users } = require('../drizzle/schema');
 module.exports = () => {
   passport.use(new KakaoStrategy({
     clientID: process.env.KAKAO_ID,
+    clientSecret: process.env.KAKAO_SECRET,
     callbackURL: '/auth/kakao/callback',
   }, async (accessToken, refreshToken, profile, done) => {
     console.log('kakao profile', profile);

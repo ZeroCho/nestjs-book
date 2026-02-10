@@ -14,8 +14,9 @@ export class KakaoStrategy extends PassportStrategy(Strategy) {
     private readonly db: MySql2Database<typeof schema>,
   ) {
     super({
-      clientID: configService.get('KAKAO_ID')!,
-      callbackURL: '',
+      clientID: configService.get('KAKAO_ID'),
+      clientSecret: configService.get('KAKAO_SECRET'),
+      callbackURL: '/auth/kakao/callback',
     });
   }
 
