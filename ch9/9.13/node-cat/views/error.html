@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>에러</title>
-  <link rel="stylesheet" href="/main.css">
-</head>
-<body>
+{% extends 'layout.html' %}
+
+{% block content %}
   <h1>{{message}}</h1>
   <h2>{{error.status}}</h2>
   <pre>{{error.stack}}</pre>
-</body>
-</html>
+{% endblock %}
