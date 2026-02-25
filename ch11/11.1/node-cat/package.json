@@ -6,9 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "cross-env NODE_ENV=production nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start --env-file .env",
+    "start": "cross-env NODE_ENV=production PORT=80 npx pm2 start dist/main.js -i 0",
     "start:dev": "nest start --watch --env-file .env",
     "start:debug": "nest start --debug --watch --env-file .env",
     "start:prod": "node dist/main",
@@ -43,7 +43,14 @@
     "passport-kakao": "^1.0.1",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "connect-redis": "^8.0.1",
+    "cross-env": "^7.0.3",
+    "helmet": "^8.0.0",
+    "nest-winston": "^1.10.2",
+    "pm2": "^6.0.5",
+    "redis": "^4.7.0",
+    "rxjs": "^7.8.1",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.0",

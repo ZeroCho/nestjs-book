@@ -1,4 +1,4 @@
-import { Module, NestModule, MiddlewareConsumer, RequestMethod, OnModuleInit, OnApplicationBootstrap, ValidationPipe } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer, RequestMethod, OnModuleInit, OnApplicationBootstrap, ValidationPipe, Logger } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -18,6 +18,7 @@ import fs from 'node:fs';
 import { APP_FILTER, APP_INTERCEPTOR, APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/all-exceptions.filter';
 import { LoggerInterceptor } from './logger/logger.interceptor';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { LoggerInterceptor } from './logger/logger.interceptor';
     AuthModule,
     PostModule,
     UserModule,
+    RedisModule,
     ConfigModule.forRoot({ isGlobal: true }),
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'public'),
@@ -64,6 +66,7 @@ import { LoggerInterceptor } from './logger/logger.interceptor';
     { provide: APP_INTERCEPTOR, useClass: LoggerInterceptor },
     { provide: APP_PIPE, useValue: new ValidationPipe({ transform: true }) },
     { provide: APP_FILTER, useClass: AllExceptionsFilter },
+    Logger,
   ],
 })
 export class AppModule implements NestModule, OnModuleInit, OnApplicationBootstrap {
