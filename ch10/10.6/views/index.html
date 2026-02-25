@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="chat-container">
+  <div class="header">
+    <h1>AI 비서</h1>
+    <select id="provider-select">
+      <option value="openai">OpenAI</option>
+      <option value="anthropic">Anthropic</option>
+      <option value="gemini">Gemini</option>
+    </select>
+  </div>
+
+  <div class="messages" id="messages"></div>
+
+  <form class="input-form" id="chat-form">
+    <textarea id="message-input" placeholder="메시지를 입력하세요..." rows="3"></textarea>
+    <button type="submit">전송</button>
+  </form>
+</div>
+{% endblock %}

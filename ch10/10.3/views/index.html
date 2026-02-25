@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="app-container">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>대화 기록</h2>
+      <button id="toggle-sidebar" class="toggle-button">←</button>
+    </div>
+
+    <div class="sessions-list" id="sessions-list"></div>
+  </aside>
+
+  <div class="chat-container">
+    <header class="chat-header">
+      <h1>AI 비서</h1>
+      <div class="header-controls">
+        <select id="model-select" class="model-selector">
+          <!-- 모델은 여기에 표시시됩니다 -->
+        </select>
+        <button id="new-chat-btn" class="new-chat-button">새 대화</button>
+      </div>
+    </header>
+
+    <div id="chat-messages" class="chat-messages">
+      <!-- 메시지가 여기에 표시됩니다. -->
+    </div>
+
+    <form id="chat-form" class="chat-input-container">
+      <input
+        type="text"
+        id="message-input"
+        class="message-input"
+        placeholder="메시지를 입력하세요..."
+        autocomplete="off"
+      />
+      <button type="submit" class="send-button">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+        >
+          <path
+            d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}
