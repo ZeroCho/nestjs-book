@@ -11,13 +11,14 @@ import * as schema from './drizzle/schema';
 import * as relations from './drizzle/relations';
 import { DrizzleModule } from './drizzle/drizzle.module';
 import { PostModule } from './post/post.module';
-import { UserModule } from './user/user.module';
-import { EventsModule } from './events/events.module';
-import { EventEmitterModule } from '@nestjs/event-emitter';
 import fs from 'node:fs';
 import { APP_FILTER, APP_INTERCEPTOR, APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/all-exceptions.filter';
-import { LoggerInterceptor } from './logger/logger.interceptor';
+import { UserModule } from './user/user.module';
+import { EventsModule } from './events/events.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+// import { LocalAuthGuard } from './auth/local-auth.guard';
+// import { LoggerInterceptor } from './logger/logger.interceptor';
 
 @Module({
   imports: [
@@ -61,8 +62,9 @@ import { LoggerInterceptor } from './logger/logger.interceptor';
   providers: [
     AppService,
     // 전역 등록 (방법 2: APP_* 프로바이더 사용)
-    { provide: APP_INTERCEPTOR, useClass: LoggerInterceptor },
-    { provide: APP_PIPE, useValue: new ValidationPipe({ transform: true }) },
+    // { provide: APP_GUARD, useClass: LocalAuthGuard },
+    // { provide: APP_INTERCEPTOR, useClass: LoggerInterceptor },
+    // { provide: APP_PIPE, useValue: new ValidationPipe({ transform: true }) },
     { provide: APP_FILTER, useClass: AllExceptionsFilter },
   ],
 })

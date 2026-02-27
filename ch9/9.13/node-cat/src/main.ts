@@ -8,9 +8,20 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import passport from 'passport';
 import { SessionSocketIoAdapter } from './auth/socket-io.adapter';
+// import { ValidationPipe } from '@nestjs/common';
+// import { LocalAuthGuard } from './auth/local-auth.guard';
+// import { RenderInterceptor } from './render/render.interceptor';
+// import { AllExceptionsFilter } from './common/all-exceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  // app.useGlobalPipes(new ValidationPipe({
+  //   transform: true,
+  // }));
+  // app.useGlobalGuards(new LocalAuthGuard());
+  // app.useGlobalInterceptors(new RenderInterceptor());
+  // app.useGlobalFilters(new AllExceptionsFilter());
+
   const express = app.getHttpAdapter().getInstance();
   const views = join(__dirname, '..', 'views');
   nunjucks.configure(views, { express, watch: true });

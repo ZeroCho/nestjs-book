@@ -11,23 +11,22 @@ import * as schema from './drizzle/schema';
 import * as relations from './drizzle/relations';
 import { DrizzleModule } from './drizzle/drizzle.module';
 import { PostModule } from './post/post.module';
+import fs from 'node:fs';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from './common/all-exceptions.filter';
 import { UserModule } from './user/user.module';
 import { EventsModule } from './events/events.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import fs from 'node:fs';
-import { APP_FILTER, APP_INTERCEPTOR, APP_GUARD, APP_PIPE } from '@nestjs/core';
-import { AllExceptionsFilter } from './common/all-exceptions.filter';
-import { LoggerInterceptor } from './logger/logger.interceptor';
 import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
+    RedisModule,
     EventsModule,
     EventEmitterModule.forRoot({ wildcard: true }),
     AuthModule,
     PostModule,
     UserModule,
-    RedisModule,
     ConfigModule.forRoot({ isGlobal: true }),
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'public'),
@@ -62,9 +61,6 @@ import { RedisModule } from './redis/redis.module';
   controllers: [AppController],
   providers: [
     AppService,
-    // 전역 등록 (방법 2: APP_* 프로바이더 사용)
-    { provide: APP_INTERCEPTOR, useClass: LoggerInterceptor },
-    { provide: APP_PIPE, useValue: new ValidationPipe({ transform: true }) },
     { provide: APP_FILTER, useClass: AllExceptionsFilter },
     Logger,
   ],
