@@ -54,7 +54,7 @@ export class ChatController {
 
     // 프로바이더 표시 이름 매핑
     const providerDisplayNames: Record<string, string> = {
-      openai: 'GPT-5',
+      openai: 'gpt-5.4',
       claude: 'Claude',
       gemini: 'Gemini',
     };

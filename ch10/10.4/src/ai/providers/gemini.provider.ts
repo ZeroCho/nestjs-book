@@ -18,7 +18,7 @@ export class GeminiProvider implements IAIProvider {
     const apiKey = this.configService.get<string>('gemini.apiKey');
     this.model =
       this.configService.get<string>('gemini.model') ||
-      'gemini-3-pro-preview';
+      'gemini-3.1-pro-preview';
 
     if (!apiKey) {
       throw new Error('Gemini API 키가 설정되지 않았습니다.');

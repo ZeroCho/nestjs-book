@@ -60,12 +60,12 @@ class ChatApp {
       console.error('프로바이더 목록을 불러오는 중 오류 발생:', error);
       // 기본값으로 폴백
       this.providers = [
-        { value: 'openai', label: 'GPT-5' },
+        { value: 'openai', label: 'gpt-5.4' },
         { value: 'claude', label: 'Claude' },
         { value: 'gemini', label: 'Gemini' },
       ];
       this.providerDisplayNames = {
-        openai: 'GPT-5',
+        openai: 'gpt-5.4',
         claude: 'Claude',
         gemini: 'Gemini',
       };
