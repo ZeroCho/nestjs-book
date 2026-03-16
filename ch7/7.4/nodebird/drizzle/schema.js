@@ -3,7 +3,7 @@ const { sql } = require("drizzle-orm");
 
 exports.users = mysqlTable("users", {
   id: varchar({ length: 40 }).notNull(),
-  nick: varchar({ length: 2015 }).notNull(),
+  nick: varchar({ length: 15 }).notNull(),
   password: varchar({ length: 100 }),
   provider: mysqlEnum(['local', 'kakao']).notNull().default('local'),
   createdAt: datetime("created_at", { mode: 'string'}).default(sql`(CURRENT_TIMESTAMP)`).notNull(),

@@ -13,9 +13,15 @@ exports.hashtagRelations = relations(hashtags, ({many}) => ({
   postsToHashtags: many(postsToHashtags),
 }));
 
-exports.postsToHashtagsRelations = relations(postsToHashtags, ({many}) => ({
-  post: many(posts),
-  hashtag: many(hashtags),
+exports.postsToHashtagsRelations = relations(postsToHashtags, ({ one }) => ({
+  post: one(posts, {
+    fields: [postsToHashtags.postId],
+    references: [posts.id],
+  }),
+  hashtag: one(hashtags, {
+    fields: [postsToHashtags.hashtagId],
+    references: [hashtags.id],
+  }),
 }));
 
 exports.usersRelations = relations(users, ({ many }) => ({
