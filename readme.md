@@ -1,6 +1,6 @@
 ## Node.js + Nest.js 교과서의 소스코드입니다.
 
-master 브랜치의 소스코드는 개정4판 소스코드입니다. 개정3판 소스코드는 `3pan` 브랜치에, 개정2판 소스코드는 `2pan` 브랜치에, 초판 소스코드는 `1pan` 브랜치에 있습니다.
+master 브랜치의 소스코드는 개정4판 소스코드입니다. 개정3판, 개정2판, 초판 소스코드는 [nodejs-book](https://github.com/zerocho/nodejs-book)에 있습니다.
 
 소스코드를 받으신 후에는 터미널에서 코드의 루트경로(`package.json`이 있는)로 이동하신 후 `npm i`를 입력해서 node_modules를 설치하셔야 합니다. `.env` 파일과 `node_modules` 폴더는 이 소스 코드에 포함되어 있지 않습니다.
 
