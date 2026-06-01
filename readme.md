@@ -204,9 +204,8 @@ master 브랜치의 소스코드는 개정4판 소스코드입니다. 개정3판
 - 11.2 깃과 깃허브 사용하기
   - 11.2.1 깃 설치하기
   - 11.2.2 깃허브 사용하기
- 
-<img width="1800" alt="image" src="https://github.com/user-attachments/assets/6eacafc4-fab1-4a20-9bcd-69dd881204ac" />
-
 - 11.3 AWS 시작하기
 - 11.4 AWS에 배포하기
 - 11.5 함께 보면 좋은 자료
+ 
+<img width="1800" alt="image" src="https://github.com/user-attachments/assets/6eacafc4-fab1-4a20-9bcd-69dd881204ac" />
