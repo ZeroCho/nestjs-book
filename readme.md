@@ -1,4 +1,5 @@
 ## Node.js + Nest.js 교과서의 소스코드입니다.
+<img width="340" alt="Node js + NestJS 교과서_입체" src="https://github.com/user-attachments/assets/b21272ca-d8da-464f-80cf-7d939d447a84" />
 
 master 브랜치의 소스코드는 개정4판 소스코드입니다. 개정3판, 개정2판, 초판 소스코드는 [nodejs-book](https://github.com/zerocho/nodejs-book)에 있습니다.
 
@@ -6,7 +7,14 @@ master 브랜치의 소스코드는 개정4판 소스코드입니다. 개정3판
 
 코드에 오타&오류가 있거나 개선점이 있다면 적극적으로 **issue** 제기나 **Pull Request** 보내주시면 됩니다!
 
-조현영 지음 | 길벗출판사 | 604쪽 | 33,000원
+조현영 지음 | 길벗출판사 | 604쪽 | 40,000원
+
+구매 링크
+[예스24](https://www.yes24.com/Product/Goods/190250717)
+[교보문고](https://product.kyobobook.co.kr/detail/S000220101148)
+[알라딘](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=394099495)
+
+
 
 ## 목차
 
@@ -196,6 +204,9 @@ master 브랜치의 소스코드는 개정4판 소스코드입니다. 개정3판
 - 11.2 깃과 깃허브 사용하기
   - 11.2.1 깃 설치하기
   - 11.2.2 깃허브 사용하기
+ 
+<img width="1800" alt="image" src="https://github.com/user-attachments/assets/6eacafc4-fab1-4a20-9bcd-69dd881204ac" />
+
 - 11.3 AWS 시작하기
 - 11.4 AWS에 배포하기
 - 11.5 함께 보면 좋은 자료
