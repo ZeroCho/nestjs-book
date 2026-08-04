@@ -6,11 +6,11 @@ const router = express.Router();
 router.get('/', (req, res) => {
   res.send('Hello, User');
 });
-router.get('/user/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   console.log('얘만 실행됩니다.');
   res.send('Hello, User');
 });
-router.get('/user/like', (req, res) => {
+router.get('/like', (req, res) => {
   console.log('전혀 실행되지 않습니다.');
 });
 
