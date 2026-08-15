@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>섹션 3 · Express — 노드 강의</title>
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <section class="slide divider">
+    <div class="inner">
+      <div class="num">03</div>
+      <h1>Express</h1>
+      <p class="lead">4편 · 60분 — 왜 프레임워크인가</p>
+    </div>
+  </section>
+
+  <!-- ================= 3-1 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">3-1</div>
+      <h1>npm과 익스프레스 시작하기</h1>
+      <span class="pill"><span class="dot"></span> 14분 · 개념 + 라이브 코딩</span>
+      <p class="goal">남의 코드를 가져다 쓰는 npm을 익히고, 2-1의 서버를 익스프레스로 포팅해 before/after를 본다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>npm으로 익스프레스 설치</h2>
+      <ol class="steps">
+        <li><code>npm init</code> → <code>package.json</code> 필드 훑기</li>
+        <li><code>npm i express</code> → <code>node_modules</code>·lock 파일 관찰</li>
+        <li><code>node_modules</code> 지우고 <code>npm i</code>로 복원 → “그래서 깃엔 안 올림”</li>
+        <li><code>app.js</code>로 2-1 REST 서버를 익스프레스로 포팅</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 같은 동작을 훨씬 짧은 코드로. SemVer의 <code>^</code>만 짚고, 나머지 npm 명령어는 노트 N-3.</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">3-1 · before / after</span>
+      <h2>손으로 하던 노가다가 한 줄로</h2>
+      <div class="cols">
+        <div>
+          <div class="col-label bad">http 모듈</div>
+<pre class="code sm">createServer((req,res)=&gt;{
+  <span class="kw">if</span>(req.url===<span class="str">'/'</span> &amp;&amp;
+     req.method===<span class="str">'GET'</span>){ … }
+  <span class="kw">else if</span>(req.url===<span class="str">'/user'</span>
+     &amp;&amp; req.method===<span class="str">'POST'</span>){ … }
+  <span class="cm">// if 지옥…</span>
+});</pre>
+        </div>
+        <div>
+          <div class="col-label good">Express</div>
+<pre class="code sm">app.<span class="fn">get</span>(<span class="str">'/'</span>, (req,res)=&gt;{ … });
+app.<span class="fn">post</span>(<span class="str">'/user'</span>, (req,res)=&gt;{ … });
+app.<span class="fn">put</span>(<span class="str">'/user/:id'</span>, … );
+app.<span class="fn">delete</span>(<span class="str">'/user/:id'</span>, … );
+
+<span class="cm">// Content-Type도 자동</span></pre>
+        </div>
+      </div>
+      <p class="muted">프레임워크는 마법이 아니라, 섹션 1~2에서 손으로 한 노가다를 잘 정리해둔 것.</p>
+    </div>
+  </section>
+
+  <!-- ================= 3-2 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">3-2</div>
+      <h1>미들웨어 총정리</h1>
+      <span class="pill"><span class="dot"></span> 20분 · 라이브 코딩 + 쿠키/세션 개념</span>
+      <p class="goal">익스프레스의 심장 미들웨어를 하나씩. 쿠키·세션 개념도 여기서 압축해 흡수한다.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">3-2 · 개념</span>
+      <h2>미들웨어 = 공항 입국 심사대</h2>
+      <figure>
+        <img class="concept-art full" style="max-height:32vh" src="assets/graphics/s3-middleware-checkpoints.png" alt="요청이 여러 공항 심사대처럼 순서가 있는 미들웨어를 통과하는 과정">
+        <figcaption class="visual-caption">요청은 등록된 순서대로 심사대를 통과한다</figcaption>
+      </figure>
+<pre class="code">app.<span class="fn">use</span>((req, res, next) =&gt; {
+  <span class="cm">// 여권 검사…</span>
+  <span class="fn">next</span>();   <span class="cm">// 안 부르면 여기서 멈춤!</span>
+});
+</pre>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>미들웨어를 붙여 나간다</h2>
+      <ol class="steps">
+        <li><code>app.use</code>로 직접 미들웨어 작성 → <code>next()</code> 빼먹으면 멈추는 것 시연</li>
+        <li><code>morgan</code>(로그) · <code>static</code>(1-3의 fs 고생 회수) · <code>express.json</code> · <code>cookie-parser</code></li>
+        <li>쿠키를 개발자도구 Application 탭에서 확인 → 직접 조작해 보이기</li>
+        <li><code>express-session</code> 적용 → 민감한 건 서버, 열쇠만 쿠키</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 우리가 손으로 한 것마다 미들웨어가 하나씩. 순서가 곧 로직(static은 session 위에).</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">3-2 · 개념</span>
+      <h2>서버는 방금 온 사람을 기억 못 한다</h2>
+      <figure>
+        <img class="concept-art full" style="max-height:43vh" src="assets/graphics/s3-cookie-session-key.png" alt="브라우저는 세션 열쇠만 보관하고 민감한 사용자 정보는 서버 금고에 저장하는 구조">
+      </figure>
+      <div class="cols" style="margin-top:.7rem">
+        <p><span class="hl2">쿠키</span> — 브라우저에는 조작 가능한 작은 열쇠</p>
+        <p><strong>세션</strong> — 민감한 정보는 서버 금고에 보관</p>
+      </div>
+      <p class="muted">이 “열쇠만 맡긴다” 구조가 5-4의 Passport serialize/deserialize로 이어진다.</p>
+    </div>
+  </section>
+
+  <!-- ================= 3-3 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">3-3</div>
+      <h1>라우터 분리, 404, 에러 처리</h1>
+      <span class="pill"><span class="dot"></span> 14분 · 라이브 코딩 + 예외 처리</span>
+      <p class="goal">길어진 라우팅을 폴더로 나누고, 서버가 죽는 경험을 통해 예외 처리를 흡수한다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>구조 잡고 에러 방어하기</h2>
+      <ol class="steps">
+        <li><code>routes/</code> 폴더로 라우터 분리 (2-2 모듈 회수) + 라우트 매개변수</li>
+        <li>맨 아래 <strong>404 미들웨어</strong> + 에러 처리 미들웨어</li>
+        <li>일부러 에러를 내서 <strong>서버가 죽는 것</strong> 확인 → try/catch로 방어</li>
+        <li><code>uncaughtException</code>은 최후의 방어선일 뿐임을 강조</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 에러가 나도 서버가 살아남는다. “프런트 에러는 그 사람 화면만, 서버 에러는 전원 접속 불가.”</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">3-3 · 개념</span>
+      <h2>에러 처리 미들웨어는 <span class="hl">맨 아래</span></h2>
+<pre class="code">app.use(<span class="str">'/'</span>, indexRouter);
+app.use(<span class="str">'/user'</span>, userRouter);
+
+app.use((req, res) =&gt; {          <span class="cm">// 404: 아무 라우터도 못 잡으면</span>
+  res.status(<span class="str">404</span>).send(<span class="str">'Not Found'</span>);
+});
+
+app.use((err, req, res, next) =&gt; {  <span class="cm">// 인자 4개 = 에러 전용</span>
+  console.error(err);
+  res.status(<span class="str">500</span>).send(<span class="str">'서버 에러'</span>);
+});
+</pre>
+      <p class="muted">req/res 자주 쓰는 것은 치트시트로. 에러 목록은 노트 N-8 — “외우지 말고 메시지를 AI에.”</p>
+    </div>
+  </section>
+
+  <!-- ================= 3-4 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">3-4</div>
+      <h1>템플릿 엔진 넌적스</h1>
+      <span class="pill"><span class="dot"></span> 12분 · 라이브 코딩</span>
+      <p class="goal">사람마다 다른 HTML을 만든다. “박서연님, 안녕하세요”를 위한 템플릿 엔진.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>넌적스로 동적 화면 만들기</h2>
+      <ol class="steps">
+        <li>넌적스 설정 후 변수·반복문·조건문·<code>include</code></li>
+        <li><code>res.render</code>로 2-1의 <code>users</code> 데이터를 화면에 뿌리기</li>
+        <li>에러 처리 미들웨어에서 에러 페이지 렌더링</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 접속자마다 다른 HTML. “AI 앱 화면도 넌적스로 만든다 — 서버 렌더링 개념은 어디서든 통한다.”</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">3-4 · 섹션 마무리</span>
+      <blockquote class="quote">익스프레스 기본기 끝.<br>아직도 서버를 끄면 <span class="hl">데이터가 증발</span>한다.</blockquote>
+      <p class="muted" style="margin-top:1.4rem">다음 섹션, 드디어 데이터베이스.</p>
+    </div>
+  </section>
+
+</div>
+<script src="deck.js"></script>
+</body>
+</html>

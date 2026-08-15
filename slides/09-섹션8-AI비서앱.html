@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>섹션 8 · AI 비서 웹 앱 — 노드 강의</title>
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <section class="slide divider">
+    <div class="inner">
+      <div class="num">08</div>
+      <h1>AI 비서 웹 앱</h1>
+      <p class="lead">4편 · 56분 — 배운 부품을 전부 조립</p>
+    </div>
+  </section>
+
+  <!-- ================= 8-1 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">8-1</div>
+      <h1>프로젝트 셋업과 기본 화면</h1>
+      <span class="pill"><span class="dot"></span> 12분 · 라이브 코딩</span>
+      <p class="goal">OT에서 본 그 앱을 시작한다. 지난 섹션 네스트 부품이 전부 실전 투입된다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>프로젝트 셋업</h2>
+      <ol class="steps">
+        <li><code>nest new ai-agents</code> + Vercel AI SDK 패키지 설치</li>
+        <li><code>.env</code>에 API 키 (5-3 회수 — 유출·과금 주의, 무료 크레딧 안내)</li>
+        <li>넌적스로 기본 채팅 화면 (3-4 회수)</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 빈 채팅 화면이 뜬다. “AI SDK가 여러 서비스를 하나의 인터페이스로 통일해준다.”</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">8-1 · 개념</span>
+      <h2>제각각인 API를 하나로</h2>
+      <figure>
+        <img class="concept-art full" style="max-height:48vh" src="assets/graphics/s8-api-adapter.png" alt="서로 다른 AI 제공자를 공통 어댑터 하나로 연결하는 구조">
+        <figcaption class="visual-caption">OpenAI · Anthropic · Google → 공통 어댑터 → 우리 서버</figcaption>
+      </figure>
+      <p class="muted">어댑터만 갈아끼우면 모델이 바뀐다.</p>
+    </div>
+  </section>
+
+  <!-- ================= 8-2 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">8-2</div>
+      <h1>Vercel AI SDK로 AI 기능 붙이기</h1>
+      <span class="pill"><span class="dot"></span> 14분 · 라이브 코딩</span>
+      <p class="goal">첫 AI 응답을 받아본다. 이 호출 하나가 요즘 서비스 개발의 절반.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>AI와 대화하는 서버</h2>
+      <ol class="steps">
+        <li>AI 서비스 · 모듈 작성</li>
+        <li><code>generateText</code>로 첫 응답 받기</li>
+        <li>프로바이더(openai · anthropic · google) 선택 로직</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 서버가 AI와 대화한다. “나머지 반은 이걸 안정적으로·빠르게 보이게 만드는 것 — 남은 회차.”</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">8-2 · 코드</span>
+      <h2>모델은 어댑터 한 줄</h2>
+<pre class="code"><span class="cm">// 어댑터만 갈아끼우면 모델이 바뀐다</span>
+<span class="kw">const</span> { text } = <span class="kw">await</span> <span class="fn">generateText</span>({
+  model: openai(<span class="str">'gpt-5.4'</span>),        <span class="cm">// → anthropic(...) 로 교체 가능</span>
+  prompt: userMessage,
+});
+</pre>
+    </div>
+  </section>
+
+  <!-- ================= 8-3 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">8-3</div>
+      <h1>스트리밍 채팅 (백엔드 + 프런트)</h1>
+      <span class="pill"><span class="dot"></span> 16분 · 라이브 코딩</span>
+      <p class="goal">ChatGPT처럼 글자가 흘러나오게. <strong>1-3의 스트림</strong>이 여기서 부활한다.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">8-3 · 개념</span>
+      <h2>다 만들어 주기 vs 흘려 보내기</h2>
+      <figure>
+        <img class="concept-art full" style="max-height:29vh" src="assets/buffer-vs-stream.png" alt="완성된 답변 전체를 기다리는 방식과 답변 조각을 계속 보내는 스트리밍 비교">
+      </figure>
+      <div class="cols">
+        <div><div class="col-label bad">일반 — 몇 초 대기</div>
+<pre class="code sm"><span class="kw">const</span> { text } =
+  <span class="kw">await</span> <span class="fn">generateText</span>({ … });
+res.<span class="fn">json</span>({ text });
+<span class="cm">// 완성될 때까지 침묵</span></pre></div>
+        <div><div class="col-label good">스트리밍 — 글자가 흐른다</div>
+<pre class="code sm"><span class="kw">const</span> result =
+  <span class="fn">streamText</span>({ … });
+<span class="kw">return</span> result
+  .toDataStreamResponse();
+<span class="cm">// 조각조각 (SSE)</span></pre></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>스트리밍 완성</h2>
+      <ol class="steps">
+        <li>백엔드: <code>streamText</code> + SSE로 응답 흘리기</li>
+        <li>프런트: 스트림 수신 후 타자 치듯 렌더링</li>
+        <li>세 모델에 같은 질문 → 속도·스타일 비교</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 답변이 실시간으로 흐른다. “웹소켓 아니라 SSE — 응답은 서버→클라 한 방향이면 충분. 도구는 필요한 만큼만.”</div>
+      <div class="note">1-3에선 <strong>디스크 → 브라우저</strong>로 흘려보냈고, 오늘은 <strong>AI가 만드는 글자</strong>를 흘려보낸다. 구조는 똑같다.</div>
+    </div>
+  </section>
+
+  <!-- ================= 8-4 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">8-4</div>
+      <h1>세션 관리·안정성·마무리</h1>
+      <span class="pill"><span class="dot"></span> 14분 · 라이브 코딩</span>
+      <p class="goal">대화를 기억하게 만들고 안정성을 강화해 앱을 완성한다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>기억하고 튼튼하게</h2>
+      <ol class="steps">
+        <li>대화 히스토리 저장 · 세션 분리 · <code>MAX_HISTORY_LENGTH</code></li>
+        <li>입력 검증(파이프 회수) · 예외 필터 회수 · 타임아웃</li>
+        <li>스스로 해보기 과제 안내</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> AI 비서 앱 완성. “LLM은 기억력이 없어 매번 대화 전체를 다시 보낸다 — 3-2의 ‘서버는 방금 온 사람을 기억 못 한다’가 반복.”</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">8-4 · 섹션 마무리</span>
+      <blockquote class="quote">이제 여러분 컴퓨터엔<br><span class="hl">서비스가 두 개</span> 있습니다.</blockquote>
+      <p class="muted" style="margin-top:1.4rem">문제는 컴퓨터를 끄면 서비스도 꺼진다는 것. 마지막 섹션, 세상에 공개하러 갑니다.</p>
+    </div>
+  </section>
+
+</div>
+<script src="deck.js"></script>
+</body>
+</html>

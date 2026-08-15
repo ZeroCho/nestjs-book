@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>섹션 2 · REST와 모듈 — 노드 강의</title>
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <section class="slide divider">
+    <div class="inner">
+      <div class="num">02</div>
+      <h1>REST &amp; 모듈</h1>
+      <p class="lead">2편 · 22분 — 주소 설계와 파일 쪼개기</p>
+    </div>
+  </section>
+
+  <!-- ================= 2-1 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">2-1</div>
+      <h1>REST API 서버 만들기</h1>
+      <span class="pill"><span class="dot"></span> 12분 · 개념 3분 + 라이브 코딩</span>
+      <p class="goal">주소마다 다른 일을 하는 서버. 주소 설계 규칙 REST를 잡고, CRUD 서버를 만든다.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">2-1 · 개념</span>
+      <h2>REST — 주소는 명사, 동작은 메서드</h2>
+      <div class="visual-split">
+        <table>
+          <tr><th>메서드</th><th>의미</th><th>예시</th></tr>
+          <tr><td><code>GET</code></td><td>조회</td><td><code>GET /users</code></td></tr>
+          <tr><td><code>POST</code></td><td>생성</td><td><code>POST /users</code></td></tr>
+          <tr><td><code>PUT</code></td><td>수정</td><td><code>PUT /users/1</code></td></tr>
+          <tr><td><code>DELETE</code></td><td>삭제</td><td><code>DELETE /users/1</code></td></tr>
+        </table>
+        <figure>
+          <img class="concept-art" src="assets/graphics/s2-rest-actions.png" alt="하나의 자원에 조회 생성 수정 삭제 동작을 적용하는 REST 개념">
+          <figcaption class="visual-caption">같은 자원, 메서드로 동작을 구분</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>CRUD 라우팅 서버</h2>
+      <ol class="steps">
+        <li><code>restServer.js</code> — <code>users</code> 객체를 DB 대용으로 (데이터: 박서연)</li>
+        <li>URL·메서드로 분기해 목록/등록/수정/삭제 처리</li>
+        <li>주소 파싱이 필요해지면 <code>URL</code> 클래스 도입</li>
+        <li>브라우저는 GET만 가능 → <strong>fetch로 POST</strong> 쏘기</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 하나의 서버가 주소·메서드에 따라 다르게 동작. “서버 끄면 users 증발 → DB가 필요한 이유(섹션 4).”</div>
+    </div>
+  </section>
+
+  <!-- ================= 2-2 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">2-2</div>
+      <h1>파일이 길어졌다 — 모듈로 쪼개기</h1>
+      <span class="pill"><span class="dot"></span> 10분 · 라이브 코딩 + 개념</span>
+      <p class="goal">100줄을 넘긴 파일을 쪼갠다. 노드의 두 모듈 시스템(CJS·ESM)을 실습으로 익힌다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>라우팅 로직을 파일로 분리</h2>
+      <ol class="steps">
+        <li>라우팅 로직을 별도 파일로 빼고 <code>module.exports</code> / <code>require</code></li>
+        <li>같은 걸 <code>export</code> / <code>import</code>로 바꿔보기</li>
+        <li>ESM에서 <code>__dirname</code>이 없어지는 것 확인 → <code>import.meta.url</code></li>
+        <li>이후 강의는 한쪽 방식으로 통일 선언</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 파일이 역할별로 나뉜다. 상호 호출·다이내믹 임포트는 “겪으면 책 2.4로” 안내만.</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">2-2 · 개념</span>
+      <h2>노드엔 모듈 시스템이 <span class="hl">둘</span></h2>
+      <div class="cols">
+        <div>
+          <div class="col-label">CommonJS (CJS)</div>
+<pre class="code sm"><span class="cm">// math.js</span>
+module.exports = { add };
+
+<span class="cm">// app.js</span>
+<span class="kw">const</span> { add } = <span class="fn">require</span>(<span class="str">'./math'</span>);</pre>
+        </div>
+        <div>
+          <div class="col-label">ECMAScript (ESM)</div>
+<pre class="code sm"><span class="cm">// math.js</span>
+<span class="kw">export</span> { add };
+
+<span class="cm">// app.js</span>
+<span class="kw">import</span> { add } <span class="kw">from</span> <span class="str">'./math.js'</span>;</pre>
+        </div>
+      </div>
+      <div class="note">http 모듈 노가다는 여기까지. 이 고생을 기억한 채 다음 섹션에서 익스프레스를 만나면, 프레임워크가 뭘 해주는지 정확히 보인다.</div>
+    </div>
+  </section>
+
+</div>
+<script src="deck.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>섹션 6 · TypeScript 전환 — 노드 강의</title>
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <section class="slide divider">
+    <div class="inner">
+      <div class="num">06</div>
+      <h1>TypeScript</h1>
+      <p class="lead">2편 · 33분 — 숨은 폭탄 찾기</p>
+    </div>
+  </section>
+
+  <!-- ================= 6-1 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">6-1</div>
+      <h1>노드에서 ts 실행 + 문법 속성 과외</h1>
+      <span class="pill"><span class="dot"></span> 15분 · 연출 + 라이브 코딩</span>
+      <p class="goal">5-7의 폭탄을 터뜨리며 시작. 왜 타입이 필요한지 몸으로 느끼고 문법을 속성으로 익힌다.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">6-1 · 연출</span>
+      <h2>JS가 안 알려준 폭탄</h2>
+      <div class="visual-split">
+        <figure>
+          <img class="concept-art" src="assets/graphics/s6-typescript-safety.png" alt="실행 중 오류를 만나는 자바스크립트와 실행 전에 오류를 찾는 타입스크립트 비교">
+          <figcaption class="visual-caption">사고 후 발견 vs 출발 전 검사</figcaption>
+        </figure>
+        <div>
+          <div class="col-label bad">JS — 런타임에서야 터짐</div>
+<pre class="code sm">router.get(<span class="str">'/me'</span>, (req,res)=&gt;{
+  <span class="line-bad">res.json(req.user.id);</span>
+  <span class="cm">// 비로그인 → 실행 중 크래시</span>
+});</pre>
+          <div class="col-label good">TS — 미리 빨간 줄</div>
+<pre class="code sm"><span class="cm">// req.user: User | undefined</span>
+res.json(req.user<span class="good">?.</span>id);
+<span class="cm">// undefined일 수 있음 —</span>
+<span class="cm">// 실행 전에 경고</span></pre>
+        </div>
+      </div>
+      <p class="muted">이 에러, 코드 짤 땐 아무도 안 알려줬다. 사용자가 겪고 나서야 안다. TS는 <strong>실행 전에</strong> 알려준다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>ts 실행 + 문법 속성 과외</h2>
+      <ol class="steps">
+        <li>노드에서 <code>ts</code> 파일 바로 실행 (“요즘 노드는 거의 그냥 실행”)</li>
+        <li>NodeBird 전환에 필요한 것만: 기본 타입 · 인터페이스 · 유니언 · 제네릭 맛보기</li>
+        <li><code>any</code>를 쓰면 안 되는 이유</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> TS 기본기 장착. “문법 전체는 범위 밖 — 더 깊이는 공식 핸드북과 AI. 목표는 전환 완주.”</div>
+    </div>
+  </section>
+
+  <!-- ================= 6-2 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">6-2</div>
+      <h1>NodeBird 전환 — 에러 0개 만들기</h1>
+      <span class="pill"><span class="dot"></span> 18분 · 라이브 코딩 (일부 배속)</span>
+      <p class="goal">전환은 에러 개수를 0으로 줄여가는 게임. 처음 수백 개 떠도 정상이다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>전환 실전</h2>
+      <ol class="steps">
+        <li><code>tsconfig</code> · <code>@types/*</code> 설치 → 첫 컴파일 <strong>에러 폭탄</strong> 화면</li>
+        <li>라이브러리 타이핑: <code>req.user</code>에 <code>User</code> 타입 확장</li>
+        <li>내 코드 타이핑 — 대표 패턴 2~3개는 라이브, 나머지는 배속</li>
+        <li>에러 0개 달성 → 전체 동작 확인</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 6-1의 폭탄을 이제 에디터가 미리 잡는다. “에러 200개 떠도 정상 — 하나씩 잡는 게 오늘 내용.”</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">6-2 · 섹션 마무리</span>
+      <blockquote class="quote">여러분은 이제 <span class="hl">JS 프로젝트를<br>TS로 전환해본 사람</span>입니다.</blockquote>
+      <p class="muted" style="margin-top:1.4rem">이력서에 쓸 수 있는 경험. 다음 섹션의 네스트는 아예 처음부터 TS로 설계된 프레임워크 — 오늘 고생이 자산이 된다.</p>
+    </div>
+  </section>
+
+</div>
+<script src="deck.js"></script>
+</body>
+</html>

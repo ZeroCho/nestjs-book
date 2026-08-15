@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>섹션 1 · 서버의 탄생 — 노드 강의</title>
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <section class="slide divider">
+    <div class="inner">
+      <div class="num">01</div>
+      <h1>서버의 탄생</h1>
+      <p class="lead">4편 · 52분 — 설치부터 노드의 심장까지</p>
+    </div>
+  </section>
+
+  <!-- ================= 1-1 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">1-1</div>
+      <h1>노드 설치하고 첫 코드 실행하기</h1>
+      <span class="pill"><span class="dot"></span> 10분 · 대부분 라이브 코딩</span>
+      <p class="goal">개념 설명 없이 바로 손을 움직인다. 오늘의 유일한 목표: <strong>브라우저 없이 자바스크립트를 실행</strong>해본다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>설치하고 첫 실행까지</h2>
+      <ol class="steps">
+        <li>nodejs.org에서 <strong>LTS</strong> 설치 (윈도·맥 각각) → <code>node -v</code>로 확인</li>
+        <li>VS Code 설치하고 작업 폴더 열기</li>
+        <li>터미널에서 <code>node</code> → REPL 진입, <code>1+1</code>·<code>console.log('hi')</code></li>
+        <li><code>.exit</code> 후 <code>helloworld.js</code> 작성 → <code>node helloworld.js</code></li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 터미널에 원하는 값이 출력된다. “브라우저 콘솔이랑 똑같은데, 지금 브라우저가 없죠.”</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">1-1 · 오늘의 개념</span>
+      <div class="visual-split">
+        <div>
+          <blockquote class="quote">브라우저 없이<br><span class="hl">자바스크립트가 돌아간다.</span></blockquote>
+          <p class="muted" style="margin-top:1.4rem">버전 관리·npm 업데이트는 강의 노트 N-3으로. 지금 필요 없다. 다음 시간, 바로 서버 만듭니다.</p>
+        </div>
+        <figure style="margin:0">
+          <img class="concept-art" src="assets/graphics/s1-browserless-js.png" alt="브라우저 창을 벗어나 독립 실행기에서 계속 실행되는 자바스크립트">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 1-2 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">1-2</div>
+      <h1>서버 만들기 + 방금 만든 게 뭔지</h1>
+      <span class="pill"><span class="dot"></span> 14분 · 라이브 코딩 + 개념</span>
+      <p class="goal">열 줄이 안 되는 서버를 먼저 띄우고, 그다음 “방금 만든 게 뭐였는지”에 이름표를 붙인다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>30분 만에 서버 (실제론 10줄)</h2>
+      <ol class="steps">
+        <li><code>server1.js</code> — <code>http.createServer</code>로 응답 만들기</li>
+        <li><code>node server1.js</code> → 브라우저 <code>localhost:8080</code> 접속</li>
+        <li>같은 와이파이에서 <strong>휴대폰</strong>으로 내부 IP 접속</li>
+        <li><code>node --watch</code>로 자동 재시작 세팅</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 브라우저에 “Hello Node!”. 휴대폰에서도 뜬다 — 내 컴퓨터가 지금 서버.</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">1-2 · 코드</span>
+      <h2>이게 서버의 전부</h2>
+<pre class="code"><span class="kw">const</span> http = <span class="fn">require</span>(<span class="str">'http'</span>);
+
+<span class="kw">const</span> server = http.<span class="fn">createServer</span>((req, res) =&gt; {
+  res.writeHead(<span class="str">200</span>, { <span class="str">'Content-Type'</span>: <span class="str">'text/html; charset=utf-8'</span> });
+  res.end(<span class="str">'&lt;h1&gt;Hello Node!&lt;/h1&gt;'</span>);
+});
+
+server.<span class="fn">listen</span>(<span class="str">8080</span>, () =&gt; <span class="fn">console</span>.log(<span class="str">'8080 대기 중'</span>));
+</pre>
+      <p class="muted">요청이 오면, 응답을 준다. 네이버도 유튜브도 본질은 이것 — 규모가 다를 뿐.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">1-2 · 개념</span>
+      <h2>클라이언트 ↔ 서버</h2>
+      <div class="flow">
+        <div class="node acc2">클라이언트<span class="small">브라우저·앱·다른 서버</span></div>
+        <span class="arrow-label"><span>요청 →</span><span>← 응답</span></span>
+        <div class="node acc">서버<span class="small">요청을 받아 응답</span></div>
+      </div>
+      <ul>
+        <li>주소창 입력 = <strong>요청</strong>, 화면에 뜬 내용 = <strong>응답</strong></li>
+        <li>휴대폰으로 접속됐듯, 클라이언트는 누구든 될 수 있다</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">1-2 · 개념</span>
+      <h2>노드 = 자바스크립트 <span class="hl">런타임</span></h2>
+      <div class="visual-split">
+        <div>
+          <blockquote class="quote" style="margin:.4rem 0 1rem">“Chrome <span class="hl">V8</span> 엔진으로 빌드된<br>자바스크립트 <span class="hl">런타임</span>입니다.”</blockquote>
+          <ul>
+            <li>런타임 = 자바스크립트 <strong>실행기</strong>. 브라우저도, 노드도 런타임</li>
+            <li>그래서 1-1처럼 브라우저 없이 돈다. 공식 소개에 “서버”가 없는 이유 — 서버만 만드는 게 아니라서</li>
+          </ul>
+        </div>
+        <figure style="margin:0">
+          <img class="concept-art" src="assets/graphics/s1-v8-runtime.png" alt="자바스크립트가 V8 엔진을 통과해 실행되는 런타임 구조">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 1-3 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">1-3</div>
+      <h1>HTML 파일 제공하기 — fs · 버퍼 · 스트림</h1>
+      <span class="pill"><span class="dot"></span> 15분 · 라이브 코딩</span>
+      <p class="goal">문자열 말고 진짜 HTML 파일을 보낸다. 노드가 파일을 읽어야 하니 오늘의 주인공은 <strong>fs</strong>.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>파일을 읽어 응답하기</h2>
+      <ol class="steps">
+        <li><code>server2.html</code> 작성 → <code>fs.readFile</code>로 읽어 <code>res.end</code></li>
+        <li>실행 위치를 바꿔 <strong>경로 에러</strong>를 일부러 겪기</li>
+        <li><code>path.join(__dirname, ...)</code>으로 해결 — “경로 문제는 계속 만난다”</li>
+        <li>한글 깨짐 → <code>Content-Type</code>에 <code>charset=utf-8</code></li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 브라우저에 HTML 파일이 그대로 렌더링. 경로·인코딩 함정 두 개를 몸으로 익힘.</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">1-3 · 개념</span>
+      <h2>fs — 노드가 브라우저와 갈리는 지점</h2>
+      <div class="visual-split">
+        <ul>
+          <li>브라우저 JS는 보안 때문에 내 파일을 <strong>못 읽는다</strong></li>
+          <li>노드는 읽는다. 서버니까. → <code>fs</code>(파일 시스템) 모듈</li>
+          <li><code>__dirname</code> = 현재 파일이 있는 폴더의 절대 경로</li>
+        </ul>
+        <figure style="margin:0">
+          <img class="concept-art" src="assets/graphics/s1-fs-access.png" alt="파일 접근이 차단된 브라우저와 파일을 읽을 수 있는 Node.js 비교">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">1-3 · 개념</span>
+      <h2>글자가 아니라 <span class="hl">버퍼</span>가 나온다</h2>
+      <div class="visual-split">
+        <div>
+<pre class="code">fs.readFile(<span class="str">'server2.html'</span>, (err, data) =&gt; {
+  console.log(data);              <span class="cm">// &lt;Buffer 3c 21 44 4f 43 ...&gt;</span>
+  console.log(data.toString());   <span class="cm">// &lt;!DOCTYPE html&gt; ...</span>
+});
+</pre>
+          <ul>
+            <li>컴퓨터는 파일을 글자가 아니라 <strong>바이트 덩어리</strong>로 읽는다</li>
+            <li>그 덩어리를 담아두는 그릇이 <span class="hl">버퍼</span> → <code>toString()</code>해야 글자</li>
+          </ul>
+        </div>
+        <figure style="margin:0">
+          <img class="concept-art" src="assets/graphics/s1-buffer-bytes.png" alt="파일이 바이트 조각으로 바뀌어 메모리 버퍼에 담겼다가 다시 문서로 복원되는 과정">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>큰 파일을 보내보면</h2>
+      <ol class="steps">
+        <li>수백 MB 더미 파일을 <code>readFile</code>로 응답 → <strong>메모리 사용량이 확 튀는 것</strong> 확인</li>
+        <li><code>fs.createReadStream(...).pipe(res)</code>로 교체</li>
+        <li>메모리가 <strong>평평하게</strong> 유지되는 것 확인</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 같은 파일, 같은 응답. 그런데 메모리 그래프가 완전히 다르다.</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">1-3 · 개념</span>
+      <h2 style="margin-bottom:.6rem">버퍼 vs <span class="hl">스트림</span></h2>
+      <figure style="margin:0">
+        <img
+          src="assets/buffer-vs-stream.png"
+          alt="왼쪽은 큰 파일 전체를 하나의 메모리 공간에 담는 버퍼 방식, 오른쪽은 데이터를 작은 조각으로 계속 흘려보내는 스트림 방식"
+          style="display:block;width:min(100%,760px);height:auto;margin:0 auto;border:1px solid var(--line);border-radius:16px;background:var(--panel)"
+        >
+        <figcaption class="cols" style="margin-top:.7rem">
+          <div class="col-label bad" style="margin:0">✗ readFile — 파일 전체를 메모리에 적재</div>
+          <div class="col-label good" style="margin:0">✓ 스트림 — 작은 조각만 두고 계속 전송</div>
+        </figcaption>
+      </figure>
+      <div class="note" style="margin-top:.7rem;padding:.7rem 1rem;font-size:clamp(.9rem,1.35vw,1.1rem)">
+        AI가 답변을 한 글자씩 보내는 것도 같은 원리 —
+        <strong>조각조각 흘려보내면 메모리가 일정하다.</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">1-3 · 떡밥</span>
+      <blockquote class="quote">다음 시간, 이 서버를<br>코드 <span class="hl">한 줄</span>로 멈추게 만든다.</blockquote>
+      <p class="muted" style="margin-top:1.4rem">그게 노드 이해의 열쇠.</p>
+    </div>
+  </section>
+
+  <!-- ================= 1-4 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">1-4</div>
+      <h1>멈춰버린 서버 — 이벤트 루프·논블로킹</h1>
+      <span class="pill"><span class="dot"></span> 16분 · 연출 + 개념 (앵커 회차)</span>
+      <p class="goal">서버를 일부러 멈춰 보이고, 그 이유로 <strong>싱글 스레드·논블로킹·이벤트 루프</strong>를 한 번에 설명한다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩 · 연출</div>
+      <h2>서버를 멈춰 보인다</h2>
+      <ol class="steps">
+        <li><code>readFile</code> → <code>readFileSync</code>로 변경. “더 안전해 보이죠?” (일부러 편들기)</li>
+        <li>라우트 하나에 3초짜리 동기 작업 삽입</li>
+        <li>브라우저 <strong>탭 2개</strong>: 무거운 요청 옆에서 가벼운 요청도 같이 멈추는 것 확인</li>
+        <li><code>readFile</code>로 되돌리고 재실험 → 가벼운 요청 즉시 응답</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 네트워크 탭에서 탭2의 대기 시간을 눈으로. “손님 100명이면 100명이 다 멈춘 겁니다.”</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">1-4 · 코드 비교</span>
+      <h2>코드 한 줄이 만든 차이</h2>
+      <div class="cols">
+        <div>
+          <div class="col-label bad">✗ 동기 — 다른 요청까지 멈춤</div>
+<pre class="code sm"><span class="kw">const</span> data =
+  fs.<span class="bad">readFileSync</span>(<span class="str">'big.html'</span>);
+res.end(data);
+<span class="cm">// 읽는 3초 동안</span>
+<span class="cm">// 서버 전체가 정지</span></pre>
+        </div>
+        <div>
+          <div class="col-label good">✓ 비동기 — 다른 요청은 즉시</div>
+<pre class="code sm">fs.<span class="good">readFile</span>(<span class="str">'big.html'</span>,
+  (err, data) =&gt; {
+    res.end(data);
+  });
+<span class="cm">// 읽는 동안 다른 주문</span>
+<span class="cm">// 계속 처리</span></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">1-4 · 개념</span>
+      <h2 style="margin-bottom:.6rem">Node.js는 <span class="hl">카운터 한 명</span>, 요리사는 여러 명인 주방</h2>
+      <figure style="margin:0">
+        <img class="concept-art full" src="assets/graphics/s1-kitchen-async.png" alt="카운터 한 명이 여러 요리사에게 작업을 맡기고 다음 주문을 받는 비동기 Node.js 주방">
+      </figure>
+      <div class="cols" style="margin-top:.6rem">
+        <div class="col-label bad">✗ 동기 — 카운터가 조리 완료까지 기다림</div>
+        <div class="col-label good">✓ 비동기 — 요리사에게 맡기고 다음 주문 접수</div>
+      </div>
+      <div class="note" style="margin-top:.7rem;padding:.7rem 1rem;font-size:clamp(.9rem,1.35vw,1.1rem)">
+        <strong>핵심 →</strong> Node.js가 빠른 이유는 혼자 다 해서가 아니라,
+        <strong>기다리지 않고 일을 맡기기 때문</strong>이다.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">1-4 · 개념</span>
+      <h2>이벤트 루프</h2>
+      <div class="visual-split">
+        <figure style="margin:0">
+          <img class="concept-art" src="assets/graphics/s1-event-loop.png" alt="콜 스택과 외부 I/O 작업과 태스크 큐 사이를 순환하는 이벤트 루프">
+          <p class="visual-caption">콜 스택 → I/O 맡기기 → 태스크 큐 → 다시 콜 스택</p>
+        </figure>
+<pre class="code">console.log(<span class="str">'1'</span>);
+setTimeout(() =&gt; console.log(<span class="str">'2'</span>), <span class="str">0</span>);   <span class="cm">// 큐로 미뤄짐</span>
+console.log(<span class="str">'3'</span>);
+<span class="cm">// 출력 순서 → 1, 3, 2</span>
+</pre>
+      </div>
+      <p class="muted">콜백 = “이벤트가 오면 실행해줘”라는 예약 — 클릭 리스너와 같은 구조.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">1-4 · 정리</span>
+      <blockquote class="quote">노드는 <span class="hl">V8 기반 JS 런타임</span>,<br><span class="hl">싱글 스레드</span>지만 <span class="hl">이벤트 루프 기반 논블로킹 I/O</span>라<br>동시 요청에 강하다.</blockquote>
+      <p class="muted" style="margin-top:1.4rem">면접 단골. I/O엔 강하고 CPU 계산엔 약함 → 해결은 노트 N-4. 다음 섹션부턴 다시 손이 바빠진다.</p>
+    </div>
+  </section>
+
+</div>
+<script src="deck.js"></script>
+</body>
+</html>

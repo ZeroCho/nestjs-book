@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>섹션 5 · SNS 프로젝트 NodeBird — 노드 강의</title>
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <section class="slide divider">
+    <div class="inner">
+      <div class="num">05</div>
+      <h1>SNS 프로젝트 · NodeBird</h1>
+      <p class="lead">7편 · 93분 — 이 강의의 몸통</p>
+    </div>
+  </section>
+
+  <!-- ================= 5-1 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">5-1</div>
+      <h1>프로젝트 구조 + 깃 세팅</h1>
+      <span class="pill"><span class="dot"></span> 15분 · 라이브 코딩</span>
+      <p class="goal">본 프로젝트 시작. 깃부터 깔고(전진 배치), 폴더 구조와 껍데기 화면까지 세운다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩 · 깃 5분</div>
+      <h2>깃으로 프로젝트 관리 시작</h2>
+      <ol class="steps">
+        <li><code>git init</code> → <code>add</code> → <code>commit</code></li>
+        <li>깃허브 리포 생성 후 <code>push</code></li>
+        <li><code>.gitignore</code>에 <code>node_modules</code>, <code>.env</code> (“왜 .env를 빼는지는 5-3에서 뼈저리게”)</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 되돌아갈 지점이 생긴다. “이 강의에서 깃은 <code>add · commit · push · log</code> 4개면 됩니다.”</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">5-1 · 공지</span>
+      <h2>막히면 여기서 이어가세요</h2>
+      <div class="flow left">
+        <div class="node acc2">github.com/zerocho/nestjs-book</div>
+      </div>
+      <ul>
+        <li><strong>회차마다 그 시점의 끝 커밋</strong>이 있습니다</li>
+        <li>따라오다 꼬여서 도저히 안 되면 해당 회차 커밋을 받아 <strong>거기서부터</strong> 이어가면 됩니다</li>
+        <li>처음부터 다시 하지 마세요 — 진도를 멈추는 게 제일 나쁩니다</li>
+      </ul>
+      <div class="note warn">단, 받아서 <strong>눈으로 읽는 것만으로는 안 늡니다.</strong> 받은 다음에도 직접 쳐보세요.</div>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩 · 구조 10분</div>
+      <h2>NodeBird 뼈대 세우기</h2>
+      <ol class="steps">
+        <li>폴더 구조(routes · views · models 격) + 패키지 설치</li>
+        <li><code>app.js</code> 뼈대 + 넌적스 레이아웃</li>
+        <li>기능 없는 <strong>껍데기 화면</strong>부터 다 띄우기</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 화면이 보인다. “이 구조는 정답이 아니라 관례 — 익스프레스는 구조를 강제하지 않는다(섹션 7 떡밥).”</div>
+    </div>
+  </section>
+
+  <!-- ================= 5-2 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">5-2</div>
+      <h1>데이터베이스 세팅</h1>
+      <span class="pill"><span class="dot"></span> 14분 · 라이브 코딩</span>
+      <p class="goal">User·Post·Hashtag 스키마와 관계를 드리즐로 정의한다. 팔로잉이 최종 보스.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">5-2 · 개념</span>
+      <h2>데이터 관계 3종</h2>
+      <figure>
+        <img class="concept-art full" style="max-height:46vh" src="assets/graphics/s5-data-relations.png" alt="일대다 다대다 자기참조 다대다 데이터 관계를 연결선으로 비교한 그림">
+      </figure>
+      <div class="cols three" style="margin-top:.7rem;text-align:center">
+        <p><strong>1 : N</strong><br><span class="muted">유저 ↔ 글</span></p>
+        <p><strong>N : M</strong><br><span class="muted">글 ↔ 해시태그</span></p>
+        <p><strong>셀프 N : M</strong><br><span class="muted">유저 ↔ 유저</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>스키마와 관계 정의</h2>
+      <ol class="steps">
+        <li>User · Post · Hashtag 스키마 정의</li>
+        <li>1:N(유저-글) · N:M(글-해시태그) · 셀프 N:M(팔로잉) 관계 (4-3 회수)</li>
+        <li>DB 생성 · 연결 확인 → 커밋</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 관계까지 갖춘 DB 완성. “팔로잉은 유저가 유저를 팔로우 → 자기 자신과 N:M.”</div>
+    </div>
+  </section>
+
+  <!-- ================= 5-3 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">5-3</div>
+      <h1>로그인 ① 회원가입·해싱·환경변수</h1>
+      <span class="pill"><span class="dot"></span> 16분 · 라이브 코딩</span>
+      <p class="goal">로그인은 서버 개발 종합 격투기. 지금까지 배운 게 총출동한다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>안전한 회원가입 만들기</h2>
+      <ol class="steps">
+        <li>Passport 전체 구조 그림을 머리에 넣고 시작</li>
+        <li>회원가입을 <strong>평문 비밀번호</strong>로 먼저 → DB에 그대로 보이는 화면</li>
+        <li><code>bcrypt</code> 해싱 도입 (단방향 → 복호화가 아니라 대조)</li>
+        <li>비밀키 하드코딩 → <code>process.env</code> + <code>dotenv</code> (5-1의 .gitignore 회수)</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 박서연 계정 생성. “평문 저장은 범죄에 가깝다. 깃허브에 키 올라가는 사고, 진짜 많다.”</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">5-3 · 코드</span>
+      <h2>비밀번호는 <span class="hl">해싱</span></h2>
+      <div class="visual-split">
+        <figure>
+          <img class="concept-art" src="assets/graphics/s5-password-hashing.png" alt="평문 비밀번호가 단방향 해시로 변환되어 안전하게 저장되는 과정">
+          <figcaption class="visual-caption">원문으로 되돌릴 수 없는 단방향 변환</figcaption>
+        </figure>
+        <div>
+          <div class="col-label bad">✗ 평문 저장</div>
+<pre class="code sm">db.insert(users).values({
+  email,
+  <span class="line-bad">password: password,</span>
+});</pre>
+          <div class="col-label good">✓ bcrypt</div>
+<pre class="code sm"><span class="kw">const</span> hash =
+  <span class="kw">await</span> bcrypt.<span class="fn">hash</span>(password, <span class="str">12</span>);
+db.insert(users).values({
+  email,
+  <span class="line-good">password: hash,</span>
+});</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 5-4 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">5-4</div>
+      <h1>로그인 ② Passport 전략과 세션</h1>
+      <span class="pill"><span class="dot"></span> 15분 · 라이브 코딩</span>
+      <p class="goal">Passport 최대 고비 serialize/deserialize를 두 문장으로 넘는다.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">5-4 · 개념</span>
+      <h2>serialize / deserialize</h2>
+      <figure>
+        <img class="concept-art full" style="max-height:38vh" src="assets/graphics/s5-session-serialization.png" alt="사용자 전체 정보에서 ID만 세션에 저장하고 요청마다 사용자를 복원하는 과정">
+        <figcaption class="visual-caption">User 전체 → ID만 세션에 저장 → 요청마다 User 복원</figcaption>
+      </figure>
+      <ul>
+        <li><span class="hl">serialize</span> = 유저에서 <strong>열쇠(id)만</strong> 뽑아 세션에 넣기</li>
+        <li><span class="hl">deserialize</span> = 매 요청마다 열쇠로 <strong>유저를 다시 찾아오기</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>로컬 로그인 완성</h2>
+      <ol class="steps">
+        <li><code>LocalStrategy</code> 작성</li>
+        <li><code>serializeUser</code> / <code>deserializeUser</code> (3-2 세션 회수)</li>
+        <li><code>isLoggedIn</code> / <code>isNotLoggedIn</code> 미들웨어</li>
+        <li>로그인 · 로그아웃 동작 확인 → 커밋</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 로그인 상태가 유지된다. “이 미들웨어를 어디에 꽂느냐가 전부 수동 규칙 — 섹션 7에서 가드로 바뀐다.”</div>
+    </div>
+  </section>
+
+  <!-- ================= 5-5 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">5-5</div>
+      <h1>카카오 로그인</h1>
+      <span class="pill"><span class="dot"></span> 12분 · 라이브 코딩</span>
+      <p class="goal">비밀번호를 아예 안 받는 OAuth 방식. Strategy만 갈아끼우면 된다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>OAuth 로그인 붙이기</h2>
+      <ol class="steps">
+        <li>OAuth 흐름 그림 3분 — “우리 서버는 비밀번호를 안 받는다”</li>
+        <li>카카오 개발자 앱 등록</li>
+        <li><code>KakaoStrategy</code> + 콜백 라우터</li>
+        <li>로그인 동작 확인 → 커밋</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 카카오로 로그인 완료. “구글·네이버도 패턴은 같다 — Strategy 갈아끼우기. 하나 하면 나머지는 문서로.”</div>
+    </div>
+  </section>
+
+  <!-- ================= 5-6 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">5-6</div>
+      <h1>멀터로 이미지 업로드 + 해시태그</h1>
+      <span class="pill"><span class="dot"></span> 13분 · 라이브 코딩</span>
+      <p class="goal">파일 업로드는 body-parser가 못 한다. multipart 전용 미들웨어 멀터가 필요.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>이미지와 해시태그</h2>
+      <ol class="steps">
+        <li>멀터 설정 (저장 경로 · 파일명 · 용량 제한)</li>
+        <li>이미지 업로드 라우터 + 글 작성 연결 + 미리보기</li>
+        <li>정규식으로 해시태그 추출 → N:M 관계에 저장 (5-2 회수)</li>
+        <li>커밋</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 이미지 달린 글과 해시태그 완성. “글자만 있는 SNS는 심심하니까.”</div>
+    </div>
+  </section>
+
+  <!-- ================= 5-7 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">5-7</div>
+      <h1>프로젝트 마무리 + 스스로 해보기</h1>
+      <span class="pill"><span class="dot"></span> 8분 · 시연 + 과제</span>
+      <p class="goal">팔로잉까지 마무리하고 풀 시나리오를 시연. 그리고 숨은 폭탄을 예고한다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩 · 시연</div>
+      <h2>마무리와 과제</h2>
+      <ol class="steps">
+        <li>팔로잉 기능 마무리 (배속) → 박서연 계정으로 풀 시나리오 시연</li>
+        <li>핵심 정리 지도 한 장</li>
+        <li>과제: 팔로잉 끊기 · 프로필 수정 · 좋아요 (최소 하나는 직접)</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> NodeBird 완성. “완성 영상만 보면 실력이 안 는다.”</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">5-7 · 떡밥</span>
+      <blockquote class="quote">이 프로젝트엔 <span class="hl">시한폭탄</span>이 숨어 있다.<br><span class="hl2">req.user</span>가 undefined일 수 있는데<br>그냥 썼거든요.</blockquote>
+      <p class="muted" style="margin-top:1.4rem">JS는 실행 전엔 안 알려준다. 다음 섹션에서 타입스크립트가 그 폭탄을 전부 찾아낸다.</p>
+    </div>
+  </section>
+
+</div>
+<script src="deck.js"></script>
+</body>
+</html>

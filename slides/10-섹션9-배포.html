@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>섹션 9 · 배포 — 노드 강의</title>
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <section class="slide divider">
+    <div class="inner">
+      <div class="num">09</div>
+      <h1>배포</h1>
+      <p class="lead">3편 · 37분 — 세상에 공개하기</p>
+    </div>
+  </section>
+
+  <!-- ================= 9-1 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">9-1</div>
+      <h1>운영 패키지와 pm2</h1>
+      <span class="pill"><span class="dot"></span> 14분 · 라이브 코딩</span>
+      <p class="goal">서비스 운영에 필요한 패키지를 붙이고, pm2 클러스터로 1-4의 싱글 스레드를 회수한다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>운영 채비</h2>
+      <ol class="steps">
+        <li><code>cross-env</code> · <code>pm2</code> · 윈스턴(로깅) · <code>helmet</code> · <code>connect-redis</code></li>
+        <li>morgan · express-session의 배포용 설정 변경</li>
+        <li><code>pm2 start app.js -i max</code>로 클러스터 모드</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 여러 프로세스로 안정 운영. “1-4에서 요리사 한 명이라 했죠 — 8코어면 8명 고용.”</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">9-1 · 개념</span>
+      <h2>요리사를 <span class="hl">여러 명</span> 고용한다</h2>
+      <div class="visual-split">
+        <figure>
+          <img class="concept-art" src="assets/graphics/s9-pm2-cluster.png" alt="여러 Node.js 프로세스가 요청을 나눠 처리하는 pm2 클러스터">
+          <figcaption class="visual-caption">요청을 CPU 코어별 프로세스에 분산</figcaption>
+        </figure>
+        <div>
+<pre class="code">$ pm2 start app.js <span class="str">-i</span> max
+<span class="cm"># CPU 코어 수만큼 프로세스</span>
+</pre>
+          <p class="muted">싱글 스레드를 프로세스를 늘려 회수. 명령어 하나면 끝.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 9-2 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">9-2</div>
+      <h1>AWS에 배포하기</h1>
+      <span class="pill"><span class="dot"></span> 18분 · 라이브 코딩</span>
+      <p class="goal">EC2를 만들고, 깃으로 코드를 올려 실제로 전 세계에서 접속되게 한다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>배포 실전</h2>
+      <ol class="steps">
+        <li>AWS 가입 · EC2 생성 · 보안 그룹 (배속) — <strong>과금 주의, 끄는 법부터</strong></li>
+        <li>EC2에서 <code>git clone</code> (5-1 회수) · 노드 · MySQL 세팅</li>
+        <li><code>.env</code> 옮기기 · <code>pm2</code>로 실행 · 포트 연결</li>
+        <li>휴대폰 <strong>LTE</strong>로 접속 확인</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 전 세계 어디서든 접속. “1-2에선 같은 와이파이만 됐죠. 이번엔 진짜 어디서든.”</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">9-2 · 개념</span>
+      <h2>배포 흐름</h2>
+      <figure>
+        <img class="concept-art full" style="max-height:37vh" src="assets/graphics/s9-deployment-pipeline.png" alt="로컬 코드가 저장소와 클라우드 서버를 거쳐 공개 서비스로 배포되는 과정">
+      </figure>
+      <div class="flow">
+        <div class="node">EC2 생성</div><span class="arrow">→</span>
+        <div class="node acc">git clone</div><span class="arrow">→</span>
+        <div class="node">노드·MySQL</div><span class="arrow">→</span>
+        <div class="node">.env</div><span class="arrow">→</span>
+        <div class="node acc2">pm2 실행</div>
+      </div>
+      <div class="note warn"><strong>과금 주의</strong> · 인스턴스 끄는 법부터 배운다. EC2 = 남의 건물에 있는 내 컴퓨터.</div>
+    </div>
+  </section>
+
+  <!-- ================= 9-3 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">9-3</div>
+      <h1>완강! 다음 스텝</h1>
+      <span class="pill"><span class="dot"></span> 5분 · 마무리</span>
+      <p class="goal">여정을 되짚고, 계속 성장하는 법을 안내한다.</p>
+    </div>
+  </section>
+
+  <section class="slide title-slide">
+    <div class="inner">
+      <span class="kicker">9-3 · 완강</span>
+      <h1>당신은 이제<br><span class="hl">다른 사람</span>입니다</h1>
+      <div class="flow left">
+        <div class="node">맨손 서버</div><span class="arrow">→</span>
+        <div class="node">Express</div><span class="arrow">→</span>
+        <div class="node">DB</div><span class="arrow">→</span>
+        <div class="node acc">SNS</div><span class="arrow">→</span>
+        <div class="node">TS</div><span class="arrow">→</span>
+        <div class="node acc2">Nest</div><span class="arrow">→</span>
+        <div class="node acc2">AI 앱</div><span class="arrow">→</span>
+        <div class="node">AWS</div>
+      </div>
+      <p class="sub">다음 스텝 · 과제 · 강의 노트 N-1~N-8 · 공식 문서와 AI로 계속 성장하기</p>
+    </div>
+  </section>
+
+</div>
+<script src="deck.js"></script>
+</body>
+</html>

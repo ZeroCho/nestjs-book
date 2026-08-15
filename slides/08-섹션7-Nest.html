@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>섹션 7 · Nest.js — 노드 강의</title>
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <section class="slide divider">
+    <div class="inner">
+      <div class="num">07</div>
+      <h1>Nest.js</h1>
+      <p class="lead">4편 · 61분 — 규칙을 구조로</p>
+    </div>
+  </section>
+
+  <!-- ================= 7-1 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">7-1</div>
+      <h1>익스프레스의 한계, 그리고 네스트</h1>
+      <span class="pill"><span class="dot"></span> 12분 · 개념 + 라이브 코딩</span>
+      <p class="goal">NodeBird 코드로 익스프레스의 구조적 약점을 보이고, 네스트가 그것을 어떻게 푸는지 본다.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">7-1 · 문제</span>
+      <h2>순서를 바꿔도 <span class="hl">에러가 안 난다</span></h2>
+<pre class="code"><span class="cm">// 이렇게 써야 하지만</span>
+router.post(<span class="str">'/join'</span>, isNotLoggedIn, join);
+
+<span class="cm">// 순서를 바꿔도 문법 에러 없음 — 동작만 이상해진다</span>
+<span class="line-bad">router.post(<span class="str">'/join'</span>, join, isNotLoggedIn);</span>
+</pre>
+      <p class="muted">미들웨어의 순서·역할이 <strong>코드의 규칙이 아니라 머릿속 규칙</strong>. 혼자면 OK, 팀이면 사고의 근원.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">7-1 · 해법</span>
+      <h2>같은 로직, 구조가 다르다</h2>
+      <div class="cols">
+        <div><div class="col-label">Express</div>
+<pre class="code sm">router.post(
+  <span class="str">'/join'</span>,
+  isNotLoggedIn,   <span class="cm">// 순서 규칙</span>
+  join,
+);</pre></div>
+        <div><div class="col-label good">Nest</div>
+<pre class="code sm"><span class="fn">@UseGuards</span>(NotLoggedInGuard)
+<span class="fn">@Post</span>(<span class="str">'join'</span>)
+join(<span class="fn">@Req</span>() req: Request) {
+  <span class="cm">// 잘못 쓸 수가 없다</span>
+}</pre></div>
+      </div>
+      <p class="muted">부탁(“순서 조심”)이 명찰(<code>@UseGuards</code>)로. 내부적으로 익스프레스를 쓰므로 배운 게 쌓인다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>네스트 프로젝트 첫걸음</h2>
+      <ol class="steps">
+        <li><code>nest new</code>로 프로젝트 생성</li>
+        <li>폴더 구조 투어 · 데코레이터 첫인상</li>
+        <li>컨트롤러 하나로 응답 확인</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 네스트가 뜬다. “5-1에서 ‘익스프레스는 구조를 강제하지 않는다’ 했죠. 네스트는 정반대 철학.”</div>
+    </div>
+  </section>
+
+  <!-- ================= 7-2 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">7-2</div>
+      <h1>모듈과 가드</h1>
+      <span class="pill"><span class="dot"></span> 15분 · 라이브 코딩</span>
+      <p class="goal">컨트롤러·서비스·모듈 3형제 구조를 잡고, 5-4의 로그인 미들웨어를 가드로 재작성한다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>모듈 구조와 가드</h2>
+      <ol class="steps">
+        <li>모듈 추가 — 컨트롤러 · 서비스 · 모듈 3형제</li>
+        <li><code>isLoggedIn</code>/<code>isNotLoggedIn</code>을 <strong>가드로 재작성</strong> (5-4 회수)</li>
+        <li><code>@UseGuards</code>로 라우트에 부착</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> “부탁하던 게 명찰이 된다 — 잘못 쓸 수가 없는 구조.”</div>
+    </div>
+  </section>
+
+  <!-- ================= 7-3 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">7-3</div>
+      <h1>미들웨어·환경변수·프로바이더</h1>
+      <span class="pill"><span class="dot"></span> 16분 · 라이브 코딩</span>
+      <p class="goal">기존 미들웨어를 연결하고 .env를 붙이며, 의존성 주입(DI)의 핵심을 잡는다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>미들웨어부터 DI까지</h2>
+      <ol class="steps">
+        <li>기존 미들웨어(morgan 등) 연결</li>
+        <li><code>@nestjs/config</code>로 <code>.env</code> (5-3 dotenv 회수) + 직접 미들웨어 작성</li>
+        <li>프로바이더/서비스 주입</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> “<code>new</code>를 우리가 안 하고 네스트가 대신 해주는 것 = DI. ‘갈아끼우기 쉬운 구조’. 내부 동작은 노트 N-7.”</div>
+    </div>
+  </section>
+
+  <!-- ================= 7-4 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">7-4</div>
+      <h1>생애 주기 한 방: 인터셉터·필터·파이프</h1>
+      <span class="pill"><span class="dot"></span> 18분 · 개념 + 라이브 코딩</span>
+      <p class="goal">요청 하나가 통과하는 관문들을 그림 한 장으로 정리하고 직접 만들어본다.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">7-4 · 개념</span>
+      <h2>요청 하나의 여행</h2>
+      <figure>
+        <img class="concept-art full" style="max-height:48vh" src="assets/graphics/s7-request-lifecycle.png" alt="Nest.js 요청이 미들웨어 가드 인터셉터 파이프 핸들러를 지나 응답으로 돌아오는 과정">
+        <figcaption class="visual-caption">요청 → 미들웨어 → 가드 → 인터셉터 → 파이프 → 핸들러 → 응답</figcaption>
+      </figure>
+      <p class="muted" style="text-align:center;margin-top:1.2rem">이 그림 한 장이 네스트의 전부. 출력해서 모니터에 붙여두세요.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>관문들을 직접 만든다</h2>
+      <ol class="steps">
+        <li>인터셉터 제작 → 생애 주기 순서 정리</li>
+        <li>예외 필터 (3-3 에러 미들웨어 회수)</li>
+        <li>매개변수 데코레이터 + 파이프 · <code>class-validator</code></li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> “body 검증 if문 도배가 선언 한 줄로.” DI 스캐너·게이트웨이·이벤트는 노트 N-7. 부품 조립은 다음 섹션.</div>
+    </div>
+  </section>
+
+</div>
+<script src="deck.js"></script>
+</body>
+</html>

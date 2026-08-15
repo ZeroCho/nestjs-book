@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>섹션 4 · MySQL과 드리즐 — 노드 강의</title>
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <section class="slide divider">
+    <div class="inner">
+      <div class="num">04</div>
+      <h1>MySQL &amp; Drizzle</h1>
+      <p class="lead">3편 · 44분 — 데이터를 디스크에 저장하기</p>
+    </div>
+  </section>
+
+  <!-- ================= 4-1 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">4-1</div>
+      <h1>DB가 왜 필요한가 + 설치 요점</h1>
+      <span class="pill"><span class="dot"></span> 10분 · 개념 3분 + 라이브 설치</span>
+      <p class="goal">메모리에 있던 <code>users</code>가 왜 증발하는지 짚고, MySQL·워크벤치를 설치한다.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">4-1 · 개념</span>
+      <h2>메모리 vs 디스크</h2>
+      <figure>
+        <img class="concept-art full" style="max-height:47vh" src="assets/graphics/s4-memory-vs-disk.png" alt="전원이 꺼지면 사라지는 메모리 데이터와 디스크에 남는 데이터베이스 비교">
+      </figure>
+      <div class="cols" style="margin-top:.7rem">
+        <p style="color:var(--bad)">✗ 메모리 — 서버가 꺼지면 증발</p>
+        <p><span class="hl">✓ 데이터베이스</span> — 디스크에 계속 보존</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩 · 설치</div>
+      <h2>MySQL · 워크벤치 설치</h2>
+      <ol class="steps">
+        <li>MySQL 설치 (윈도·맥 — 막히는 포인트 위주, 배속)</li>
+        <li>워크벤치 설치하고 커넥션 생성</li>
+        <li>접속 확인</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 워크벤치에서 DB에 접속 완료. OS별 상세는 노트 N-2. “설치 막히면 에러 메시지를 그대로 AI에.”</div>
+    </div>
+  </section>
+
+  <!-- ================= 4-2 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">4-2</div>
+      <h1>테이블 만들고 SQL로 CRUD</h1>
+      <span class="pill"><span class="dot"></span> 16분 · 라이브 코딩 (SQL)</span>
+      <p class="goal">테이블을 만들고 순수 SQL로 데이터를 넣고·읽고·고치고·지운다.</p>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>SQL로 데이터 다루기</h2>
+      <ol class="steps">
+        <li><code>CREATE SCHEMA</code> / <code>CREATE TABLE</code> (users, comments) — 타입·PK/FK</li>
+        <li><code>INSERT</code> / <code>SELECT</code> (WHERE · ORDER BY · LIMIT)</li>
+        <li><code>UPDATE</code> / <code>DELETE</code> — 데이터는 박서연</li>
+        <li>WHERE 빼먹은 UPDATE 사고 시연</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> 워크벤치와 SQL 양쪽으로 CRUD. “WHERE 없는 UPDATE/DELETE는 손이 떨려야 정상.”</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">4-2 · 개념</span>
+      <h2>CRUD ↔ SQL</h2>
+      <table>
+        <tr><th>동작</th><th>SQL</th></tr>
+        <tr><td>Create</td><td><code>INSERT INTO users ...</code></td></tr>
+        <tr><td>Read</td><td><code>SELECT * FROM users WHERE id=1</code></td></tr>
+        <tr><td>Update</td><td><code>UPDATE users SET ... WHERE id=1</code></td></tr>
+        <tr><td>Delete</td><td><code>DELETE FROM users WHERE id=1</code></td></tr>
+      </table>
+      <p class="muted">SQL을 매번 문자열로 짜기 귀찮죠? JS답게 쓰는 법이 다음 시간.</p>
+    </div>
+  </section>
+
+  <!-- ================= 4-3 ================= -->
+  <section class="slide ep">
+    <div class="inner">
+      <div class="epnum">4-3</div>
+      <h1>드리즐 ORM 한 방에</h1>
+      <span class="pill"><span class="dot"></span> 18분 · 라이브 코딩</span>
+      <p class="goal">ORM은 통역사. 방금 배운 SQL 지식을 그대로 자산으로 쓰는 드리즐을 익힌다.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="inner">
+      <span class="kicker">4-3 · 개념</span>
+      <h2>ORM = 통역사</h2>
+      <figure>
+        <img class="concept-art full" style="max-height:31vh" src="assets/graphics/s4-orm-translator.png" alt="자바스크립트 명령을 SQL로 바꿔 MySQL에 전달하는 ORM 통역 과정">
+        <figcaption class="visual-caption">객체 형태의 명령을 SQL로 바꾸고, 결과도 다시 객체로</figcaption>
+      </figure>
+      <div class="cols">
+        <div><div class="col-label">SQL</div>
+<pre class="code sm"><span class="kw">SELECT</span> * <span class="kw">FROM</span> users
+<span class="kw">WHERE</span> id = <span class="str">1</span>;</pre></div>
+        <div><div class="col-label">Drizzle</div>
+<pre class="code sm">db.<span class="fn">select</span>()
+  .<span class="fn">from</span>(users)
+  .<span class="fn">where</span>(<span class="fn">eq</span>(users.id, <span class="str">1</span>));</pre></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide live">
+    <div class="inner">
+      <div class="live-badge"><span class="rec"></span> 라이브 코딩</div>
+      <h2>드리즐 연결부터 쿼리까지</h2>
+      <ol class="steps">
+        <li>드리즐 설치 · MySQL 연결 · 스키마를 코드로 정의</li>
+        <li>관계 정의 (1:N · N:M) + <code>drizzle-kit</code>으로 DB 동기화</li>
+        <li><code>insert</code>/<code>select</code>/<code>update</code>/<code>delete</code> + 조인·집계</li>
+        <li>각 코드가 <strong>어떤 SQL로 변환</strong>되는지 로그로 확인</li>
+      </ol>
+      <div class="result"><strong>결과 →</strong> JS로 DB를 다룬다. “통역 결과를 항상 볼 수 있어야 진짜 아는 것.” 재료 완성 → 다음 섹션부터 진짜 서비스.</div>
+    </div>
+  </section>
+
+</div>
+<script src="deck.js"></script>
+</body>
+</html>
