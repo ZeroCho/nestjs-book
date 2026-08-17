@@ -1,5 +1,8 @@
 ## Node.js + Nest.js 교과서의 소스코드입니다.
+
 <img width="340" alt="Node js + NestJS 교과서_입체" src="https://github.com/user-attachments/assets/b21272ca-d8da-464f-80cf-7d939d447a84" />
+
+### 해당 도서에 대한 온라인 강의는 [인프런](inf.run/21s5M)에 있습니다.
 
 master 브랜치의 소스코드는 개정4판 소스코드입니다. 개정3판, 개정2판, 초판 소스코드는 [nodejs-book](https://github.com/zerocho/nodejs-book)에 있습니다.
 
